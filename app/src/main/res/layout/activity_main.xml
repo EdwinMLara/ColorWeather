@@ -19,19 +19,18 @@
         app:srcCompat="@drawable/clear_day" />
 
     <TextView
+        style="@style/mainFont"
         android:id="@+id/DescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-light"
         android:text="Partly Cloudy"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IconImaeView" />
 
     <TextView
+        style="@style/mainFont"
         android:id="@+id/CurrentTempImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +38,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:text="19"
-        android:textColor="#ffffff"
         android:textSize="54sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,30 +51,29 @@
         android:layout_marginTop="6dp"
         app:layout_constraintStart_toEndOf="@+id/CurrentTempImageView"
         app:layout_constraintTop_toTopOf="@+id/CurrentTempImageView"
-        app:srcCompat="@drawable/degree" />
+        app:srcCompat="@drawable/degree"
+        android:layout_marginLeft="8dp" />
 
     <TextView
+        style="@style/mainFont"
         android:id="@+id/HighestTempTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="24dp"
         android:text="H:19°"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CurrentTempImageView"
         android:layout_marginLeft="60dp" />
 
     <TextView
+        style="@style/mainFont"
         android:id="@+id/LowestTempTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="60dp"
         android:layout_marginTop="24dp"
         android:text="L: 12°"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CurrentTempImageView"
         android:layout_marginRight="60dp" />
