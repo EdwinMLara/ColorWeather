@@ -1,0 +1,9 @@
+<application>
+  <component name="ParameterNameHintsSettings">
+    <blacklists>
+      <blacklist language="Java">
+        <added pattern="butterknife.ButterKnife.bind(target)" />
+      </blacklist>
+    </blacklists>
+  </component>
+</application>
