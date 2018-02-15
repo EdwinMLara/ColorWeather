@@ -14,6 +14,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.DescriptionTextView) TextView DescriptionTextView;
     @BindView(R.id.LowestTempTextView) TextView LowestTextView;
     @BindView(R.id.HighestTempTextView) TextView HighestTextView;
-    @BindView(R.id.CurrentTempTextView) TextView CurrentTempImageView;
+    @BindView(R.id.CurrentTempTextView) TextView CurrentTempTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +41,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        CurrentWeather currentWeather = new CurrentWeather(MainActivity.this);
+        final CurrentWeather currentWeather = new CurrentWeather(MainActivity.this);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://www.google.com";
+        String url ="https://api.darksky.net/forecast/b80442124a6fad38da9432bb22246b6c/37.8267,-122.4233";
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        Log.d(TAG,"Response is: "+response.substring(0,5000));
+                        try {
+                            CurrentWeather currentWeather1 = getCurrentWeather(response);
+                            IconImageView.setImageDrawable(currentWeather1.getIconDrawableResource());
+                            DescriptionTextView.setText(currentWeather1.getDescription());
+                            CurrentTempTextView.setText(currentWeather1.getCurrentTemperature());
+                            LowestTextView.setText(String.format("L: %s°",currentWeather1.getLowestTemperature()));
+                            HighestTextView.setText(String.format("H: %s°",currentWeather1.getHighestTemperature()));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -78,5 +90,32 @@ public class MainActivity extends AppCompatActivity {
     public void MinutelyWeatherClick(){
         Intent MinutelyWeatherIntent = new Intent(MainActivity.this,MinutelyWeatherActivity.class);
         startActivity(MinutelyWeatherIntent);
+    }
+
+    private CurrentWeather getCurrentWeather(String json) throws JSONException{
+        JSONObject jsonObject = new JSONObject(json);
+
+        JSONObject jsonWithCurrentWeather = jsonObject.getJSONObject("currently");
+        JSONObject jsonWithDailyWeather = jsonObject.getJSONObject("daily");
+        JSONArray jsonwithDailyWeatherData = jsonWithDailyWeather.getJSONArray("data");
+        JSONObject jsonWtihTodayData = jsonwithDailyWeatherData.getJSONObject(0);
+
+
+        String summary =  jsonWithCurrentWeather.getString("summary");
+        String icon = jsonWithDailyWeather.getString("icon");
+        String temperature = Math.round(Float.parseFloat(jsonWithCurrentWeather.getString("temperature"))) + "" ;
+
+        String maxTemperature = Math.round(jsonWtihTodayData.getDouble("temperatureMax")) + "";
+        String minTemperature = Math.round(jsonWtihTodayData.getDouble("temperatureMin")) + "";
+
+        CurrentWeather currentWeather = new CurrentWeather(MainActivity.this);
+        currentWeather.setDescription(summary);
+        currentWeather.setIconimage(icon);
+        currentWeather.setCurrentTemperature(temperature);
+        currentWeather.setHighestTemperature(maxTemperature);
+        currentWeather.setLowestTemperature(minTemperature);
+
+        return  currentWeather;
+
     }
 }
