@@ -5,18 +5,19 @@
     android:id="@+id/C"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00D2ff"
+    android:background="@drawable/bg_gradient_blue"
     tools:context="com.example.emlar.colorweather.MainActivity">
 
     <ImageView
-        android:id="@+id/IconImaeView"
+        android:id="@+id/IconImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:contentDescription="imagen descripcion del tiempo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/clear_day" android:contentDescription="imagen descripcion del tiempo" />
+        app:srcCompat="@drawable/clear_day" />
 
     <TextView
         android:id="@+id/DescriptionTextView"
@@ -27,7 +28,7 @@
         android:text="Partly Cloudy"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IconImaeView" />
+        app:layout_constraintTop_toBottomOf="@+id/IconImageView" />
 
     <TextView
         android:id="@+id/CurrentTempTextView"
@@ -120,6 +121,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/minutely_button_text"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2" />
