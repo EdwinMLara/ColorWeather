@@ -1,6 +1,8 @@
 package com.example.emlar.colorweather;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.DailyWeatherTextView) TextView DailyWeatherTextView;
     @BindView(R.id.HourlyWeatherTextView) TextView HourlyWeatherTextView;
     @BindView(R.id.MinutelyWeatherTextView) TextView MinutelyWeatherTextView;
-    @BindView(R.id.IconImaeView) ImageView IconImageView;
+    @BindView(R.id.IconImageView) ImageView IconImageView;
     @BindView(R.id.DescriptionTextView) TextView DescriptionTextView;
     @BindView(R.id.LowestTempTextView) TextView LowestTextView;
     @BindView(R.id.HighestTempTextView) TextView HighestTextView;
     @BindView(R.id.CurrentTempTextView) TextView CurrentTempTextView;
+
+    @BindDrawable(R.drawable.clear_night) Drawable caliz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +46,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        final CurrentWeather currentWeather = new CurrentWeather(MainActivity.this);
-
-        // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://api.darksky.net/forecast/b80442124a6fad38da9432bb22246b6c/37.8267,-122.4233";
+        String url ="https://api.darksky.net/forecast/b80442124a6fad38da9432bb22246b6c/37.8267,-122.4233?units=si";
 
-        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             CurrentWeather currentWeather1 = getCurrentWeather(response);
+
                             IconImageView.setImageDrawable(currentWeather1.getIconDrawableResource());
                             DescriptionTextView.setText(currentWeather1.getDescription());
                             CurrentTempTextView.setText(currentWeather1.getCurrentTemperature());
@@ -102,13 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         String summary =  jsonWithCurrentWeather.getString("summary");
-        String icon = jsonWithDailyWeather.getString("icon");
+        String icon = jsonWithCurrentWeather.getString("icon");
         String temperature = Math.round(Float.parseFloat(jsonWithCurrentWeather.getString("temperature"))) + "" ;
 
         String maxTemperature = Math.round(jsonWtihTodayData.getDouble("temperatureMax")) + "";
         String minTemperature = Math.round(jsonWtihTodayData.getDouble("temperatureMin")) + "";
 
         CurrentWeather currentWeather = new CurrentWeather(MainActivity.this);
+
         currentWeather.setDescription(summary);
         currentWeather.setIconimage(icon);
         currentWeather.setCurrentTemperature(temperature);

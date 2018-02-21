@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
  * Created by emlar on 31/01/2018.
  */
 
-public class CurrentWeather {
+public class CurrentWeather{
 
     public static final String CLEAR_NIGHT = "clear-night";
     public static final String CLEAR_DAY = "clear-day";
@@ -24,7 +24,6 @@ public class CurrentWeather {
     public static final String SNOW = "snow";
     public static final String SUNNY = "sunny";
     public static final String WIND = "wind";
-
 
     @BindDrawable(R.drawable.clear_night) Drawable clearNight;
     @BindDrawable(R.drawable.clear_day) Drawable clearDay;
@@ -46,7 +45,7 @@ public class CurrentWeather {
     private String iconImage;
 
     public CurrentWeather(Activity activity){
-        ButterKnife.bind(activity);
+        ButterKnife.bind(this,activity);
     }
 
     public String getDescription() {
@@ -79,10 +78,6 @@ public class CurrentWeather {
 
     public void setHighestTemperature(String highestTemperature) {
         this.highestTemperature = highestTemperature;
-    }
-
-    public String getIconimage() {
-        return iconImage;
     }
 
     public void setIconimage(String iconimage) {
