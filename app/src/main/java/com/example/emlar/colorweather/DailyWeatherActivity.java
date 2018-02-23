@@ -14,11 +14,23 @@ public class DailyWeatherActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_weather);
 
-        ArrayList<String> dayArray = new ArrayList<>();
+        Day day = new Day();
+        day.setDayName("Lunes");
+        day.setWeatherDayDescription("parcialmente nublado");
+        day.setRainProbability("12%");
 
-        dayArray.add("Lunes");
+        Day day2 = new Day();
+        day2.setDayName("Martes");
+        day2.setWeatherDayDescription("parcialmente soleado");
+        day2.setRainProbability("11%");
 
-        ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dayArray);
+        ArrayList<Day> dayArray = new ArrayList<Day>();
+
+        dayArray.add(day);
+        dayArray.add(day2);
+
+        ArrayAdapter<Day> dayAdapter = new ArrayAdapter<Day>(this,android.R.layout.simple_list_item_1,dayArray);
         setListAdapter(dayAdapter);
     }
+
 }
