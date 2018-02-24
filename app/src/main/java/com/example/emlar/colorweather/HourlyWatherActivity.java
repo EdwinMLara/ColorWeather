@@ -24,8 +24,13 @@ public class HourlyWatherActivity extends Activity {
         hour.setTitle("11:00pm");
         hour.setWeatherDescription("there is a storm");
 
+        Hour hour2 = new Hour();
+        hour2.setTitle("12:00pm");
+        hour2.setWeatherDescription("there is not a storm");
+
         ArrayList<Hour> hours = new ArrayList<Hour>();
         hours.add(hour);
+        hours.add(hour2);
 
         hourlyWeatherAdapter hourlyWeatherAdapter1 = new hourlyWeatherAdapter(this,hours);
         hourlyListView.setAdapter(hourlyWeatherAdapter1);

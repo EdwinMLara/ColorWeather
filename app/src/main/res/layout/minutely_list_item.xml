@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:background="@drawable/bg_gradient_blue">
+
+    <TextView
+        style="@style/mainFont"
+        android:id="@+id/minutelyTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textStyle="bold"
+        tools:text="19.20"/>
+
+    <TextView
+        style="@style/mainFont"
+        android:id="@+id/minutelyRainProbabilityTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Rain probabitely= 1%" />
+</LinearLayout>
