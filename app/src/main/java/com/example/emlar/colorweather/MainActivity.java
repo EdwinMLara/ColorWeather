@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.CurrentTempTextView) TextView CurrentTempTextView;
 
     ArrayList<Day> days;
+    ArrayList<Hour> hours;
+    ArrayList<Minute> minutes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             CurrentWeather currentWeather1 = getCurrentWeather(response);
                             days = getDailyWeatherFromJson(response);
-                            ArrayList<Hour> hours = getHourlyWeatherFromJson(response);
-                            ArrayList<Minute> minutes = getMinutelyWeatherFromJson(response);
+                            hours = getHourlyWeatherFromJson(response);
+                            minutes = getMinutelyWeatherFromJson(response);
 
                             IconImageView.setImageDrawable(currentWeather1.getIconDrawableResource());
                             DescriptionTextView.setText(currentWeather1.getDescription());
