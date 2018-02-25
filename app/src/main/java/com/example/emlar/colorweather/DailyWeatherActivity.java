@@ -1,36 +1,28 @@
 package com.example.emlar.colorweather;
 
 import android.app.ListActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.util.Log;
+
+import com.example.emlar.colorweather.Adapters.dailyWeatherAdapter;
 
 import java.util.ArrayList;
 
 public class DailyWeatherActivity extends ListActivity {
 
+    public static final String TAG = DailyWeatherActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_weather);
 
-        Day day = new Day();
-        day.setDayName("Lunes");
-        day.setWeatherDayDescription("parcialmente nublado");
-        day.setRainProbability("12%");
+        Intent intent = getIntent();
 
-        Day day2 = new Day();
-        day2.setDayName("Martes");
-        day2.setWeatherDayDescription("parcialmente soleado");
-        day2.setRainProbability("11%");
+        ArrayList<Day> days = intent.getParcelableArrayListExtra(MainActivity.DAYS_ARRAY_LIST);
 
-        ArrayList<Day> dayArray = new ArrayList<Day>();
-
-        dayArray.add(day);
-        dayArray.add(day2);
-
-        ArrayAdapter<Day> dayAdapter = new ArrayAdapter<Day>(this,android.R.layout.simple_list_item_1,dayArray);
-        setListAdapter(dayAdapter);
+        dailyWeatherAdapter dailyWeatherAdapter = new dailyWeatherAdapter(this,days);
+        setListAdapter(dailyWeatherAdapter);
     }
 
 }

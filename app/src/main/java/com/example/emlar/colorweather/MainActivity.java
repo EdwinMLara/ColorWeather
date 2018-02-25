@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String MINUTELY = "minutely";
     public static final String TIMEZONE = "timezone";
     public static final String DAYS_ARRAY_LIST = "DAYS";
+    public static final String HOUR_ARRAY_LIST = "HOUR_ARRAY_LIST";
+    public static final String MINUTE_ARRAY_LIST = "MINUTE_ARRAY_LIST";
 
     @BindView(R.id.DailyWeatherTextView) TextView DailyWeatherTextView;
     @BindView(R.id.HourlyWeatherTextView) TextView HourlyWeatherTextView;
@@ -111,12 +113,14 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.HourlyWeatherTextView)
     public void HourlyWeatherClick(){
         Intent HourlyWeatherIntend = new Intent(MainActivity.this,HourlyWatherActivity.class);
+        HourlyWeatherIntend.putParcelableArrayListExtra(HOUR_ARRAY_LIST,hours);
         startActivity(HourlyWeatherIntend);
     }
 
     @OnClick(R.id.MinutelyWeatherTextView)
     public void MinutelyWeatherClick(){
         Intent MinutelyWeatherIntent = new Intent(MainActivity.this,MinutelyWeatherActivity.class);
+        MinutelyWeatherIntent.putParcelableArrayListExtra(MINUTE_ARRAY_LIST,minutes);
         startActivity(MinutelyWeatherIntent);
     }
 
@@ -168,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             Day day = new Day();
 
             JSONObject  jsonWithDayData = jsonwithDailyWeatherData.getJSONObject(i);
-            String rainProbability = "Rain Probability " + jsonWithDayData.getDouble(PRECIP_PROBABILITY)*100 + "%";
+            String rainProbability = "Rain Probability: " + jsonWithDayData.getDouble(PRECIP_PROBABILITY)*100 + "%";
             String Description = jsonWithDayData.getString(SUMMARY);
             String dataName = dateFormat.format(jsonWithDayData.getDouble(TIME)*1000);
 
@@ -230,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject jsonWithMinuteData = jsonwithMinutelyWeatherData.getJSONObject(i);
             String title = dateFormat.format(jsonWithMinuteData.getDouble(TIME)*1000);
-            String rainProbability = jsonWithMinuteData.getDouble(PRECIP_PROBABILITY)+"";
+            String rainProbability = "Rain Probability: " + jsonWithMinuteData.getDouble(PRECIP_PROBABILITY)*100 + "%";
 
             minute.setTitle(title);
             minute.setRainProbability(rainProbability);

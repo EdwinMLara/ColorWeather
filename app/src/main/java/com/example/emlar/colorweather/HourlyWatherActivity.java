@@ -1,6 +1,7 @@
 package com.example.emlar.colorweather;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -20,17 +21,8 @@ public class HourlyWatherActivity extends Activity {
         setContentView(R.layout.activity_hourly_wather);
         ButterKnife.bind(this);
 
-        Hour hour = new Hour();
-        hour.setTitle("11:00pm");
-        hour.setWeatherDescription("there is a storm");
-
-        Hour hour2 = new Hour();
-        hour2.setTitle("12:00pm");
-        hour2.setWeatherDescription("there is not a storm");
-
-        ArrayList<Hour> hours = new ArrayList<Hour>();
-        hours.add(hour);
-        hours.add(hour2);
+        Intent intent = getIntent();
+        ArrayList<Hour> hours = intent.getParcelableArrayListExtra(MainActivity.HOUR_ARRAY_LIST);
 
         hourlyWeatherAdapter hourlyWeatherAdapter1 = new hourlyWeatherAdapter(this,hours);
         hourlyListView.setAdapter(hourlyWeatherAdapter1);
