@@ -20,12 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        tools:text="Party cloudy in the morning" />
+        tools:text="Party cloudy in the morning"
+        android:textSize="18dp"/>
 
     <TextView
         style="@style/mainFont"
         android:id="@+id/dailyListProbability"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Rain Probability 45%" />
+        tools:text="Rain Probability 45%"
+        android:textSize="18dp"/>
 </LinearLayout>

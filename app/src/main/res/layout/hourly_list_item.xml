@@ -19,7 +19,8 @@
         android:id="@+id/hourlyDescriptionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Sunny" />
+        tools:text="Sunny"
+        android:textSize="18dp"/>
 
 
 </LinearLayout>
