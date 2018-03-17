@@ -42,6 +42,8 @@ public class MinutelyWeatherAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
+        if (minutes == null)
+            return 0;
         return minutes.size();
     }
 

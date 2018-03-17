@@ -30,6 +30,9 @@ public class dailyWeatherAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if (days == null)
+            return 0;
+
         return days.size();
     }
 
