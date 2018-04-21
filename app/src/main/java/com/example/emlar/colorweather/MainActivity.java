@@ -1,8 +1,14 @@
 package com.example.emlar.colorweather;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,18 +61,32 @@ public class MainActivity extends AppCompatActivity {
     public static final String HOUR_ARRAY_LIST = "HOUR_ARRAY_LIST";
     public static final String MINUTE_ARRAY_LIST = "MINUTE_ARRAY_LIST";
 
-    @BindView(R.id.DailyWeatherTextView) TextView DailyWeatherTextView;
-    @BindView(R.id.HourlyWeatherTextView) TextView HourlyWeatherTextView;
-    @BindView(R.id.MinutelyWeatherTextView) TextView MinutelyWeatherTextView;
-    @BindView(R.id.IconImageView) ImageView IconImageView;
-    @BindView(R.id.DescriptionTextView) TextView DescriptionTextView;
-    @BindView(R.id.LowestTempTextView) TextView LowestTextView;
-    @BindView(R.id.HighestTempTextView) TextView HighestTextView;
-    @BindView(R.id.CurrentTempTextView) TextView CurrentTempTextView;
+    private FusedLocationProviderClient myLocationClient;
+    private static final int MY_PERMISSION_RERQUEST_FINE_LOCATION = 101;
+
+    @BindView(R.id.DailyWeatherTextView)
+    TextView DailyWeatherTextView;
+    @BindView(R.id.HourlyWeatherTextView)
+    TextView HourlyWeatherTextView;
+    @BindView(R.id.MinutelyWeatherTextView)
+    TextView MinutelyWeatherTextView;
+    @BindView(R.id.IconImageView)
+    ImageView IconImageView;
+    @BindView(R.id.DescriptionTextView)
+    TextView DescriptionTextView;
+    @BindView(R.id.LowestTempTextView)
+    TextView LowestTextView;
+    @BindView(R.id.HighestTempTextView)
+    TextView HighestTextView;
+    @BindView(R.id.CurrentTempTextView)
+    TextView CurrentTempTextView;
 
     ArrayList<Day> days;
     ArrayList<Hour> hours;
     ArrayList<Minute> minutes;
+
+    public String latitude;
+    public String longuitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +94,43 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        String forecastURL = "https://api.darksky.net/forecast";
+        String apiKey = "b80442124a6fad38da9432bb22246b6c";
+        String units = "units=si";
+
+        latitude = "37.8267";
+        longuitud = "-122.4233";
+
+
+        myLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            myLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                latitude = String.valueOf(location.getLatitude());
+                                longuitud = String.valueOf(location.getLongitude());
+                                Toast.makeText(MainActivity.this,latitude+", "+longuitud, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Fallo", Toast.LENGTH_LONG).show();
+                                latitude = "37.8267";
+                                longuitud = "-122.4233";
+                            }
+
+                        }
+                    });
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSION_RERQUEST_FINE_LOCATION);
+            }
+        }
+
+
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://api.darksky.net/forecast/b80442124a6fad38da9432bb22246b6c/37.8267,-122.4233?units=si";
+        String url = forecastURL + "/" + apiKey + "/" + latitude + "," + longuitud + "?" + units;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -102,6 +160,23 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSION_RERQUEST_FINE_LOCATION:
+
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permision was granted do nothing and carry on;
+                }else{
+                    Toast.makeText(getApplicationContext(),"this app requieres pemission to be grandted", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+        }
     }
 
     @OnClick(R.id.DailyWeatherTextView)
